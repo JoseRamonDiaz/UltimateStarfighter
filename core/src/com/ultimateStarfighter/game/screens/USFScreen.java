@@ -4,7 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.ultimateStarfighter.game.UltimateStarfighterGame;
 
 public class USFScreen implements Screen {
-	UltimateStarfighterGame game;
+	protected UltimateStarfighterGame game;
 	
 	public USFScreen(UltimateStarfighterGame game){
 		this.game = game;
