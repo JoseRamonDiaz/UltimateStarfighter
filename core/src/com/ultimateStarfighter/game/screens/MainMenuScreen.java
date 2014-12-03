@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ultimateStarfighter.game.UltimateStarfighterGame;
 
-public class MainMenuScreen extends USFScreen {
+public class MainMenuScreen extends USFScreen { 
 	public static final int MENU_WIDTH = 100;
 	private Stage stage;
 	private MainMenuBGActor mainMenuBGActor;
@@ -33,7 +33,7 @@ public class MainMenuScreen extends USFScreen {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-							playButton.setText("Texto cambiado");	
+							playButton.setText("U should be playing :D");	
 			}
 			
 		});
@@ -45,7 +45,9 @@ public class MainMenuScreen extends USFScreen {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				table.addAction(Actions.parallel(Actions.moveBy(0, 600, 2f)));
+				changeToOptionScreen();
+				//game.setScreen(new OptionScreen(game));
+				//table.addAction(Actions.parallel(Actions.moveBy(0, 600, 2f)));
 			}
 			
 		});
@@ -53,6 +55,16 @@ public class MainMenuScreen extends USFScreen {
 //		optionButton.setPosition((stage.getWidth() - optionButton.getWidth()) /2, (stage.getHeight() - 3 * playButton.getHeight())/2);
 		
 		TextButton highscoreButton = new TextButton("Highscores", skin);
+		
+		TextButton btnExit = new TextButton("Exit", skin);
+		btnExit.addListener(new ChangeListener(){
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				closeGame();
+			}
+			
+		});
 				
 		
 		table.setFillParent(true);
@@ -60,6 +72,7 @@ public class MainMenuScreen extends USFScreen {
 		table.add(playButton).fill().width(MENU_WIDTH).space(space).row();
 		table.add(optionButton).fill().space(space).row();
 		table.add(highscoreButton).fill().space(space).row();
+		table.add(btnExit).fill().space(space).row();
 //		table.debug();
 		
 		
@@ -71,10 +84,16 @@ public class MainMenuScreen extends USFScreen {
 		Gdx.input.setInputProcessor(stage);
 	}
 	
+	private void closeGame() {
+		game.dispose();
+		Gdx.app.exit();
+	}
+
 	@Override
 	public void render(float delta){
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		//parece que noson necesarias
+//		Gdx.gl.glClearColor(0, 0, 0, 1);
+//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		stage.draw();
 		stage.act();
@@ -85,6 +104,11 @@ public class MainMenuScreen extends USFScreen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height);
 		mainMenuBGActor.setSize(width, height);
+	}
+	
+	private void changeToOptionScreen(){
+		game.setScreen(new OptionScreen(game));
+		this.dispose();
 	}
 	
 }

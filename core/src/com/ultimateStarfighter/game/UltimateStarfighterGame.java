@@ -6,17 +6,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ultimateStarfighter.game.screens.MainMenuScreen;
+import com.ultimateStarfighter.game.screens.OptionScreen;
 import com.ultimateStarfighter.game.screens.USFScreen;
 
 public class UltimateStarfighterGame extends Game {
 	SpriteBatch batch;
 	Texture img;
 	private USFScreen mainMenuScreen;
+	private OptionScreen optionScreen;
 	
 	public void create () {
 		batch = new SpriteBatch();
 //		img = new Texture("badlogic.jpg");
 		mainMenuScreen = new MainMenuScreen(this);
+		//optionScreen = new OptionScreen(this);
 		setScreen(mainMenuScreen);
 	}
 

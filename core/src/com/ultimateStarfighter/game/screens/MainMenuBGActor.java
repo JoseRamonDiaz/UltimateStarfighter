@@ -10,11 +10,9 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class MainMenuBGActor extends Actor implements Disposable{
 	private Texture bg;
-	private TextureRegion myBg;
 	
 	public MainMenuBGActor(){
 		bg = new Texture("mainMenuBG.jpg");
-		myBg = new TextureRegion(bg);
 		//setSize(100, 100);
 	}
 	
