@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 
-public class MainMenuBGActor extends Actor implements Disposable{
+public class GameBGActor extends Actor implements Disposable{
 	private Texture bg;
+	private float x, y;
 	
-	public MainMenuBGActor(){
-		bg = new Texture("mainMenuBG.jpg");
+	public GameBGActor(){
+		bg = new Texture("Backgrounds/spacebg.gif");
+		x = 0; y = 0;
 	}
 	
 	@Override
@@ -19,14 +21,13 @@ public class MainMenuBGActor extends Actor implements Disposable{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(bg, 0, 0, getWidth(), getHeight());
+		batch.draw(bg, x, y);
 	}
 	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
 	}
-	
 	
 	
 }

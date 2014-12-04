@@ -1,10 +1,8 @@
 package com.ultimateStarfighter.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -37,8 +35,6 @@ public class MainMenuScreen extends USFScreen {
 			}
 			
 		});
-		//playButton.setSize(MENU_WIDTH, playButton.getHeight());
-//		playButton.setPosition((stage.getWidth() - playButton.getWidth()) /2, (stage.getHeight() - playButton.getHeight() )/2);
 		
 		TextButton optionButton = new TextButton("Options", skin);
 		optionButton.addListener(new ChangeListener(){
@@ -46,13 +42,9 @@ public class MainMenuScreen extends USFScreen {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				changeToOptionScreen();
-				//game.setScreen(new OptionScreen(game));
-				//table.addAction(Actions.parallel(Actions.moveBy(0, 600, 2f)));
 			}
 			
 		});
-//		optionButton.setSize(MENU_WIDTH, optionButton.getHeight());
-//		optionButton.setPosition((stage.getWidth() - optionButton.getWidth()) /2, (stage.getHeight() - 3 * playButton.getHeight())/2);
 		
 		TextButton highscoreButton = new TextButton("Highscores", skin);
 		
@@ -74,13 +66,8 @@ public class MainMenuScreen extends USFScreen {
 		table.add(highscoreButton).fill().space(space).row();
 		table.add(btnExit).fill().space(space).row();
 //		table.debug();
-		
-		
-		
 		stage.addActor(mainMenuBGActor);
 		stage.addActor(table);
-//		stage.addActor(playButton);
-//		stage.addActor(optionButton);
 		Gdx.input.setInputProcessor(stage);
 	}
 	
@@ -91,13 +78,8 @@ public class MainMenuScreen extends USFScreen {
 
 	@Override
 	public void render(float delta){
-		//parece que noson necesarias
-//		Gdx.gl.glClearColor(0, 0, 0, 1);
-//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
 		stage.draw();
 		stage.act();
-		
 	}
 	
 	@Override
