@@ -1,4 +1,4 @@
-package com.ultimateStarfighter.game.screens;
+package com.ultimateStarfighter.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

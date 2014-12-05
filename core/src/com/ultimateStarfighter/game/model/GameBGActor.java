@@ -1,4 +1,4 @@
-package com.ultimateStarfighter.game.screens;
+package com.ultimateStarfighter.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -7,11 +7,10 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class GameBGActor extends Actor implements Disposable{
 	private Texture bg;
-	private float x, y;
 	
 	public GameBGActor(){
 		bg = new Texture("Backgrounds/spacebg.gif");
-		x = 0; y = 0;
+		setX(0); setY(0);
 	}
 	
 	@Override
@@ -21,7 +20,7 @@ public class GameBGActor extends Actor implements Disposable{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(bg, x, y);
+		batch.draw(bg, getX(), getY());
 	}
 	
 	@Override

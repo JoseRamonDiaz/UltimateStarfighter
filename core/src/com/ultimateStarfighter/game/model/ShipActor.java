@@ -1,5 +1,8 @@
-package com.ultimateStarfighter.game.screens;
+package com.ultimateStarfighter.game.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,12 +25,20 @@ public class ShipActor extends Actor implements Disposable{
 	Control control = Control.getControl();
 	private float speed = 2f;
 	private TextureRegion frame ;
+	private Sound shipEngineSound;
+	private Music gameLoopMusic;
 	
 	public ShipActor(){
 		shipAnimation = new Animation(animSpeed, Services.getImgVector(path, numOfImgs));
 		isEnemyShip = false;
 		setX(100);
 		setY(100);
+		loadFrame();
+		shipEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/spaceShipEngine.wav"));
+		gameLoopMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/gameLoop.mp3"));
+		gameLoopMusic.setLooping(true);
+		gameLoopMusic.play();
+//		shipEngineSound.loop();
 	}
 	
 	public ShipActor(String path, int x, int y){
@@ -38,6 +49,7 @@ public class ShipActor extends Actor implements Disposable{
 		animSpeed = 0.05f;
 		shipAnimation = new Animation(this.animSpeed, Services.getImgVector(this.path, numOfImgs));
 		isEnemyShip = true;
+		loadFrame();
 	}
 	
 	@Override
@@ -60,11 +72,22 @@ public class ShipActor extends Actor implements Disposable{
 	}
 	
 	private void updateShipPos(){
-		float posX = getX() + (control.getPercentX() * speed); 
+		float posX = getX() + (control.getPercentX() * speed);
+		if(control.getPercentX()!= 0 || control.getPercentY() != 0){
+			shipEngineSound.loop(0.7f);
+		}else{
+			shipEngineSound.stop();
+		}
 		if(posX > 0 && posX < this.getStage().getWidth() - frame.getRegionWidth())
 			setX(posX);
 		float posY = getY() + (control.getPercentY() * speed);
 		if(posY > 0 && posY < this.getStage().getHeight() - frame.getRegionHeight())
 			setY(posY);
+	}
+	
+	private void loadFrame(){
+		frame = shipAnimation.getKeyFrame(duration, true);
+		setWidth(frame.getRegionWidth());
+		setHeight(frame.getRegionHeight());
 	}
 }

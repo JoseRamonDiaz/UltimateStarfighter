@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ultimateStarfighter.game.UltimateStarfighterGame;
+import com.ultimateStarfighter.game.model.MainMenuBGActor;
 
 public class MainMenuScreen extends USFScreen { 
 	public static final int MENU_WIDTH = 100;

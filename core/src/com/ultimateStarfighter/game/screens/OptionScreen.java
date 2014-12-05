@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ultimateStarfighter.game.UltimateStarfighterGame;
+import com.ultimateStarfighter.game.model.MainMenuBGActor;
 
 public class OptionScreen extends USFScreen{
 	private Stage stage;
