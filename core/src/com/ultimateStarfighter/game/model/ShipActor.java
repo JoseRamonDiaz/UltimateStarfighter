@@ -26,7 +26,8 @@ public class ShipActor extends Actor implements Disposable{
 	private float speed = 2f;
 	private TextureRegion frame ;
 	private Sound shipEngineSound;
-	private Music gameLoopMusic;
+	public final static int X_OFFSET = -30;
+	private float engineSoundVol = 0.9f;
 	
 	public ShipActor(){
 		shipAnimation = new Animation(animSpeed, Services.getImgVector(path, numOfImgs));
@@ -35,10 +36,7 @@ public class ShipActor extends Actor implements Disposable{
 		setY(100);
 		loadFrame();
 		shipEngineSound = Gdx.audio.newSound(Gdx.files.internal("sounds/spaceShipEngine.wav"));
-		gameLoopMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/gameLoop.mp3"));
-		gameLoopMusic.setLooping(true);
-		gameLoopMusic.play();
-//		shipEngineSound.loop();
+
 	}
 	
 	public ShipActor(String path, int x, int y){
@@ -54,6 +52,7 @@ public class ShipActor extends Actor implements Disposable{
 	
 	@Override
 	public void dispose(){
+		
 	}
 	
 	@Override
@@ -68,13 +67,21 @@ public class ShipActor extends Actor implements Disposable{
 		super.act(delta);
 		if(!isEnemyShip){
 			updateShipPos();
+		}else{
+			updateEnemyPos();
 		}
 	}
 	
+	private void updateEnemyPos() {
+		if(getX() > X_OFFSET){
+			setX(getX()-speed);
+		}
+	}
+
 	private void updateShipPos(){
 		float posX = getX() + (control.getPercentX() * speed);
 		if(control.getPercentX()!= 0 || control.getPercentY() != 0){
-			shipEngineSound.loop(0.7f);
+			shipEngineSound.loop(engineSoundVol);
 		}else{
 			shipEngineSound.stop();
 		}
@@ -89,5 +96,9 @@ public class ShipActor extends Actor implements Disposable{
 		frame = shipAnimation.getKeyFrame(duration, true);
 		setWidth(frame.getRegionWidth());
 		setHeight(frame.getRegionHeight());
+	}
+	
+	public int getXOffset(){
+		return X_OFFSET;
 	}
 }
