@@ -188,7 +188,6 @@ public class GameScreen extends USFScreen{
 			Rectangle shipRect = new Rectangle(shipActor.getX(), shipActor.getY(), shipActor.getWidth(), shipActor.getHeight());
 			Rectangle laserRect = new Rectangle(laser.getX(), laser.getY(), laser.getWidth(), laser.getHeight()/3);
 			if(Intersector.overlaps(shipRect, laserRect)){
-				System.out.println("colision");
 				gameOver = true;
 				stage.clear();
 			}
@@ -200,7 +199,6 @@ public class GameScreen extends USFScreen{
 			Rectangle shipRect = new Rectangle(shipActor.getX(), shipActor.getY(), shipActor.getWidth(), shipActor.getHeight());
 			Rectangle enemyRect = new Rectangle(enemyShip.getX(), enemyShip.getY(), enemyShip.getWidth(), enemyShip.getHeight());
 			if(Intersector.overlaps(shipRect, enemyRect)){
-				System.out.println("Ships colision");
 				gameOver = true;
 				stage.clear();
 			}
