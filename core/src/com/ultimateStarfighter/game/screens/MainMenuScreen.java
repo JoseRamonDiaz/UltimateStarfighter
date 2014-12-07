@@ -32,9 +32,9 @@ public class MainMenuScreen extends USFScreen {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-							playButton.setText("U should be playing :D");	
+				changeToGameScreen();
 			}
-			
+
 		});
 		
 		TextButton optionButton = new TextButton("Options", skin);
@@ -91,6 +91,11 @@ public class MainMenuScreen extends USFScreen {
 	
 	private void changeToOptionScreen(){
 		game.setScreen(new OptionScreen(game));
+		this.dispose();
+	}
+	
+	private void changeToGameScreen() {
+		game.setScreen(new GameScreen(game));
 		this.dispose();
 	}
 	

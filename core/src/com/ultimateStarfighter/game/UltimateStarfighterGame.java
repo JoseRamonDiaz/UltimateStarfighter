@@ -21,7 +21,7 @@ public class UltimateStarfighterGame extends Game {
 //		img = new Texture("badlogic.jpg");
 		//mainMenuScreen = new MainMenuScreen(this);
 		//optionScreen = new OptionScreen(this);
-		setScreen(new GameScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
 
 //	public void render () {

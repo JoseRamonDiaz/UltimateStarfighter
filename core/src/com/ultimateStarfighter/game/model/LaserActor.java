@@ -13,6 +13,7 @@ private Texture lassers;
 private TextureRegion lasser;
 private float speed = 5f;
 private Sound shotSound;
+private boolean isEnemyLaser;
 	
 	public LaserActor(float x, float y){
 		lassers = new Texture("lasers.png");
@@ -26,6 +27,19 @@ private Sound shotSound;
 		shotSound.play();
 	}
 	
+	public LaserActor(float x, float y, boolean isEnemyLaser){
+		this.isEnemyLaser = isEnemyLaser;
+		lassers = new Texture("lasers.png");
+		lasser = new TextureRegion(lassers,0, 0, lassers.getWidth()/2, lassers.getHeight()/8);
+		setX(x); setY(y);
+		setWidth(lasser.getRegionWidth());
+		setHeight(lasser.getRegionHeight());
+		setScale(0.5f);
+//		setRotation(180);
+//		shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laserShot.wav"));
+//		shotSound.play();
+	}
+	
 	@Override
 	public void dispose(){
 		lassers.dispose();
@@ -33,21 +47,31 @@ private Sound shotSound;
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(lasser, getX() + getWidth()*getScaleX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+		if(!isEnemyLaser)
+			batch.draw(lasser, getX() + getWidth()*getScaleX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+		else
+			batch.draw(lasser, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
 	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		if(isOnScreen())
-			setX(getX()+speed);
-		else
-			this.dispose();
+		if(!isEnemyLaser){
+			if(isOnScreen())
+				setX(getX()+speed);
+			else
+				this.remove();
+		}else{
+			if(isOnScreen())
+				setX(getX()-speed);
+			else
+				this.remove();
+		}
 	}
 	
 	private boolean isOnScreen(){
 		float posX = getX() + speed;
-		return posX > 0 || posX < this.getStage().getWidth();
+		return posX > 0 && posX < this.getStage().getWidth();
 	}
 	
 	
