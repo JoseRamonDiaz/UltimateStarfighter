@@ -15,8 +15,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ultimateStarfighter.game.UltimateStarfighterGame;
 import com.ultimateStarfighter.game.model.MainMenuBGActor;
+import com.ultimateStarfighter.game.services.PreferencesHelper;
 
 public class OptionScreen extends USFScreen{
+	
 	private Stage stage;
 	private MainMenuBGActor mainMenuBGActor;
 	private Skin skin; 
@@ -43,13 +45,14 @@ public class OptionScreen extends USFScreen{
 		dificultyItems.addAll(dificulties);
 		dificultySelectBox.setItems(dificultyItems);
 		
-		final Slider volSlider = new Slider(0, 10, 2, false, skin);
+		final Slider volSlider = new Slider(0, 1, 0.1f, false, skin);
 		
 		final TextButton btnBack = new TextButton("Back", skin);
 		btnBack.addListener(new ChangeListener(){
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				savePreferences(volSlider.getValue(),  dificultySelectBox.getSelectedIndex());
 				changeToMainMenuScreen();
 			}
 			
@@ -60,11 +63,13 @@ public class OptionScreen extends USFScreen{
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				dificultySelectBox.setSelectedIndex(1);
-				volSlider.setValue(6);
+				dificultySelectBox.setSelectedIndex(PreferencesHelper.DEFAULT_DIFICULTY);
+				volSlider.setValue(PreferencesHelper.DEFAULT_VOLUME);
 			}
 			
 		});
+		
+		loadPreferences(volSlider, dificultySelectBox);
 		
 		table.setFillParent(true);
 		table.add(lblDificulty).fill().space(10);
@@ -82,6 +87,18 @@ public class OptionScreen extends USFScreen{
 	private void changeToMainMenuScreen() {
 		game.setScreen(new MainMenuScreen(game));
 		this.dispose();
+	}
+	
+	private void savePreferences(float volume, int dificulty){
+		
+		PreferencesHelper.setVolume(volume);
+		PreferencesHelper.setDificulty(dificulty);
+	}
+	
+	private void loadPreferences(Slider volSlider, SelectBox<String> dificultySelectBox){
+		
+		volSlider.setValue(PreferencesHelper.getVolume());
+		dificultySelectBox.setSelectedIndex(PreferencesHelper.getDificulty());
 	}
 
 	@Override

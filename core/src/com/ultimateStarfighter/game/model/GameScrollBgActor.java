@@ -28,6 +28,12 @@ public class GameScrollBgActor extends Actor implements Disposable{
 	public void draw(Batch batch, float parentAlpha) {
 		batch.draw(bg, currentBgX - WIDTH, y);
 		batch.draw(bg, currentBgX, y);
+
+	}
+	
+	@Override
+	public void act(float delta) {
+		super.act(delta);
 		if(TimeUtils.nanoTime() - lastTimeBg > 10000000){
 			currentBgX -= 1;
 			lastTimeBg = TimeUtils.nanoTime();
@@ -35,11 +41,6 @@ public class GameScrollBgActor extends Actor implements Disposable{
 		if(currentBgX <= 0){
 			currentBgX = WIDTH;
 		}
-	}
-	
-	@Override
-	public void act(float delta) {
-		super.act(delta);
 	}
 	
 	

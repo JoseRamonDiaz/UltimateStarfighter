@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import com.ultimateStarfighter.game.control.Control;
+import com.ultimateStarfighter.game.services.PreferencesHelper;
 import com.ultimateStarfighter.game.services.Services;
 
 public class ShipActor extends Actor implements Disposable{
@@ -23,11 +24,11 @@ public class ShipActor extends Actor implements Disposable{
 	private float animSpeed = 0.07f;
 	private boolean isEnemyShip;
 	Control control = Control.getControl();
-	private float speed = 2f;
+	private float speed = 2f + 2 * PreferencesHelper.getDificulty();
 	private TextureRegion frame ;
 	private Sound shipEngineSound;
 	public final static int X_OFFSET = -30;
-	private float engineSoundVol = 0.9f;
+	private float engineSoundVol = PreferencesHelper.getVolume();
 	
 	public ShipActor(){
 		shipAnimation = new Animation(animSpeed, Services.getImgVector(path, numOfImgs));
@@ -52,7 +53,7 @@ public class ShipActor extends Actor implements Disposable{
 	
 	@Override
 	public void dispose(){
-		
+
 	}
 	
 	@Override
@@ -81,7 +82,7 @@ public class ShipActor extends Actor implements Disposable{
 	private void updateShipPos(){
 		float posX = getX() + (control.getPercentX() * speed);
 		if(control.getPercentX()!= 0 || control.getPercentY() != 0){
-			shipEngineSound.loop(engineSoundVol);
+			shipEngineSound.play(engineSoundVol);
 		}else{
 			shipEngineSound.stop();
 		}

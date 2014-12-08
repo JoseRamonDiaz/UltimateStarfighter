@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
+import com.ultimateStarfighter.game.services.PreferencesHelper;
 
 public class LaserActor extends Actor implements Disposable{
-private Texture lassers;
-private TextureRegion lasser;
-private float speed = 5f;
-private Sound shotSound;
-private boolean isEnemyLaser;
+	private Texture lassers;
+	private TextureRegion lasser;
+	private float speed = 5f + 2 * PreferencesHelper.getDificulty();
+	private Sound shotSound;
+	private boolean isEnemyLaser;
+	private final float laserVolume = PreferencesHelper.getVolume();
 	
 	public LaserActor(float x, float y){
 		lassers = new Texture("lasers.png");
@@ -24,7 +26,7 @@ private boolean isEnemyLaser;
 		setScale(0.5f);
 		setRotation(180);
 		shotSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laserShot.wav"));
-		shotSound.play();
+		shotSound.play(laserVolume);
 	}
 	
 	public LaserActor(float x, float y, boolean isEnemyLaser){

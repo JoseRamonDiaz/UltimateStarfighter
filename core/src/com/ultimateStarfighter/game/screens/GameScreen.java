@@ -24,6 +24,7 @@ import com.ultimateStarfighter.game.model.GameBGActor;
 import com.ultimateStarfighter.game.model.GameScrollBgActor;
 import com.ultimateStarfighter.game.model.LaserActor;
 import com.ultimateStarfighter.game.model.ShipActor;
+import com.ultimateStarfighter.game.services.PreferencesHelper;
 
 public class GameScreen extends USFScreen{
 	
@@ -31,26 +32,42 @@ public class GameScreen extends USFScreen{
 	private GameBGActor gameBgActor;
 	private GameScrollBgActor gameScrollBgActor;
 	private ShipActor shipActor;
-	private Skin skin = new Skin(Gdx.files.internal("uiskin/uiskin.json")); 
+	private Skin skin; 
 	private Touchpad tp;
-	private Control control = Control.getControl();
+	private Control control;
 	private TextButton btnFire;
 	private LaserActor laser;
 	private long lastShotTime = 0;
 	private int shotsPerSecond = 3, nanoSeconds = 1000000000;
-	private Array<LaserActor> shottedLasers = new Array<LaserActor>();
-	private Array<ShipActor> enemyShips = new Array<ShipActor>();
+	private Array<LaserActor> shottedLasers;
+	private Array<ShipActor> enemyShips;
 	private EnemyShipGenerator enemyGen;
 	private Music gameLoopMusic;
-	private int score = 0;
+	private int score;
 	private Label lblScore;
-	private Random rand = new Random();
+	private Random rand;
 	private Array<LaserActor> enemyShottedLasers;
-	private boolean gameOver = false;
+	private boolean gameOver;
 	private TextButton btnContinue;
+	private State state;
+	private Table pauseTable;
+	
+	private enum State {
+		PAUSE,
+	    RUN
+    }
 	
 	public GameScreen(UltimateStarfighterGame game) {
 		super(game);
+		skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
+		control = Control.getControl();
+		rand = new Random();
+		shottedLasers = new Array<LaserActor>();
+		enemyShips = new Array<ShipActor>();
+		
+		score = 0;
+		gameOver = false;
+		state = State.RUN;
 		enemyShottedLasers = new Array<LaserActor>();
 		stage = new Stage(new ScreenViewport());
 		enemyGen = new EnemyShipGenerator((int)stage.getWidth(), (int)stage.getHeight());
@@ -63,6 +80,21 @@ public class GameScreen extends USFScreen{
 		stage.addActor(gameBgActor);
 		stage.addActor(gameScrollBgActor);
 		
+		pauseTable = new Table();
+		Label lblPause = new Label("Pause", skin);
+		lblPause.setFontScale(2);
+		pauseTable.setFillParent(true);
+		pauseTable.add(lblPause).fill().space(10).row();
+		TextButton btnContinue = new TextButton("Continue", skin);
+		btnContinue.addListener(new ChangeListener(){
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+					resume();
+			}
+		});
+		pauseTable.add(btnContinue).fill().space(10).row();
+		
+		
 		tp = new Touchpad(10,skin);
 		stage.addActor(tp);
 		tp.setBounds(15, 15, 100, 100);
@@ -73,7 +105,8 @@ public class GameScreen extends USFScreen{
 		stage.addActor(btnFire);
 		gameLoopMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/gameLoop.mp3"));
 		gameLoopMusic.setLooping(true);
-		gameLoopMusic.play();
+		gameLoopMusic.setVolume(PreferencesHelper.getVolume());
+		//gameLoopMusic.play();
 		lblScore = new Label("Score: " + score, skin);
 		lblScore.setPosition(15, stage.getHeight() - lblScore.getHeight());
 		stage.addActor(shipActor);
@@ -82,7 +115,34 @@ public class GameScreen extends USFScreen{
 	
 	@Override
 	public void render(float delta){
-		if(!gameOver){
+		if (state == State.PAUSE) {
+			
+			stage.addActor(pauseTable);
+			
+			stage.draw();
+		}else if(gameOver){
+			if(score > PreferencesHelper.getHighScore()){
+				PreferencesHelper.setHighScore(score);
+			}
+			
+			pauseTable.remove();
+			
+			stage.addActor(gameBgActor);
+			Table table = new Table();
+			
+			Label lblGameOver = new Label("Game Over", skin);
+			table.setFillParent(true);
+			table.add(lblGameOver).fill().space(10).row();
+			
+			btnContinue = new TextButton("Continue", skin);
+			setBtnContinueListener();
+			table.add(btnContinue).fill().space(10).row();
+			
+			stage.addActor(table);
+			stage.draw();
+			
+		}else{
+			pauseTable.remove();
 			stage.draw();
 			stage.act();
 			checkOverlaps();
@@ -97,21 +157,34 @@ public class GameScreen extends USFScreen{
 			lblScore.setText("Score: " + score);
 			enemyShots(delta);
 			disposeOutOfScreenLasers();
-		}else{
-			stage.addActor(gameBgActor);
-			Table table = new Table();
-			
-			Label lblGameOver = new Label("Game Over", skin);
-			table.setFillParent(true);
-			table.add(lblGameOver).fill().space(10).row();
-			
-			btnContinue = new TextButton("Continue", skin);
-			setBtnContinueListener();
-			table.add(btnContinue).fill().space(10).row();
-			
-			stage.addActor(table);
-			stage.draw();
 		}
+	}
+	
+	@Override
+	public void show() {
+		gameLoopMusic.play();
+		state = State.RUN;
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		gameLoopMusic.stop();
+		state = State.PAUSE;
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		gameLoopMusic.pause();
+		state = State.PAUSE;
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		gameLoopMusic.play();
+		state = State.RUN;
 	}
 
 	private void setBtnContinueListener() {

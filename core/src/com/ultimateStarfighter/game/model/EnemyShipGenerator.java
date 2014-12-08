@@ -4,15 +4,17 @@ import java.util.Random;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.ultimateStarfighter.game.services.PreferencesHelper;
 
 public class EnemyShipGenerator {
 	private Array<ShipActor> newShips;
 	private float shipFrecPerSec = 1;
-	private float nano = 1000000000;
+	private float nano = 100000000;
 	private boolean isNewShips;
 	private long lastGenTime;
 	Random rand;
 	private Integer stageWidth, stageHeight;
+	private float generateDelayTime = 10f - 2.5f * PreferencesHelper.getDificulty();
 	
 	public EnemyShipGenerator(int stageWidth, int stageHeight){
 		this.stageWidth = stageWidth;
@@ -29,7 +31,7 @@ public class EnemyShipGenerator {
 	}
 	
 	private void generateShips(){
-		if(((TimeUtils.timeSinceNanos(lastGenTime)/nano)) > 1){
+		if(((TimeUtils.timeSinceNanos(lastGenTime)/nano)) > generateDelayTime){
 			newShips = new Array<ShipActor>();
 			
 			for(int i = 0 ; i < shipFrecPerSec; i++){
