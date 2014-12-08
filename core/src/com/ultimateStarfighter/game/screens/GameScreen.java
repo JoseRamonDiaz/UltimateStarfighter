@@ -89,7 +89,8 @@ public class GameScreen extends USFScreen{
 		btnContinue.addListener(new ChangeListener(){
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-					resume();
+				gameLoopMusic.play();
+				state = State.RUN;
 			}
 		});
 		pauseTable.add(btnContinue).fill().space(10).row();
@@ -162,8 +163,7 @@ public class GameScreen extends USFScreen{
 	
 	@Override
 	public void show() {
-		gameLoopMusic.play();
-		state = State.RUN;
+
 	}
 
 	@Override
@@ -182,9 +182,7 @@ public class GameScreen extends USFScreen{
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		gameLoopMusic.play();
-		state = State.RUN;
+
 	}
 
 	private void setBtnContinueListener() {
