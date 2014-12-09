@@ -1,16 +1,16 @@
 package com.ultimateStarfighter.game.control;
 
 public class Control {
-	private static Control control; 
+	private static Control control;
 	private float percentY;
 	private float percentX;
-	
-	private Control(){
-		
+
+	private Control() {
+
 	}
-	
-	public static Control getControl(){
-		if(control != null)
+
+	public static Control getControl() {
+		if (control != null)
 			return control;
 		else
 			return control = new Control();
@@ -31,6 +31,5 @@ public class Control {
 	public void setPercentX(float percentX) {
 		this.percentX = percentX;
 	}
-	
-	
+
 }

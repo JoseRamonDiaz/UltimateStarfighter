@@ -14,21 +14,22 @@ public class UltimateStarfighterGame extends Game {
 	SpriteBatch batch;
 	Texture img;
 	private USFScreen mainMenuScreen;
-	//private OptionScreen optionScreen;
-	
-	public void create () {
+
+	// private OptionScreen optionScreen;
+
+	public void create() {
 		batch = new SpriteBatch();
-//		img = new Texture("badlogic.jpg");
-		//mainMenuScreen = new MainMenuScreen(this);
-		//optionScreen = new OptionScreen(this);
+		// img = new Texture("badlogic.jpg");
+		// mainMenuScreen = new MainMenuScreen(this);
+		// optionScreen = new OptionScreen(this);
 		setScreen(new MainMenuScreen(this));
 	}
 
-//	public void render () {
-//		Gdx.gl.glClearColor(1, 0, 0, 1);
-//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//		batch.begin();
-//		batch.draw(img, 0, 0);
-//		batch.end();
-//	}
+	// public void render () {
+	// Gdx.gl.glClearColor(1, 0, 0, 1);
+	// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	// batch.begin();
+	// batch.draw(img, 0, 0);
+	// batch.end();
+	// }
 }

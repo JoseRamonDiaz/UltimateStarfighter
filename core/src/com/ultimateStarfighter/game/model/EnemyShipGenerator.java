@@ -14,60 +14,60 @@ public class EnemyShipGenerator {
 	private long lastGenTime;
 	Random rand;
 	private Integer stageWidth, stageHeight;
-	private float generateDelayTime = 10f - 2.5f * PreferencesHelper.getDificulty();
-	
-	public EnemyShipGenerator(int stageWidth, int stageHeight){
+	private float generateDelayTime = 10f - 2.5f * PreferencesHelper
+			.getDificulty();
+
+	public EnemyShipGenerator(int stageWidth, int stageHeight) {
 		this.stageWidth = stageWidth;
 		this.stageHeight = stageHeight;
-//		newShips = new Array<ShipActor>();
 		rand = new Random();
 		lastGenTime = TimeUtils.nanoTime();
 		generateShips();
 	}
-	
-	public Array<ShipActor> getNewShips(){
+
+	public Array<ShipActor> getNewShips() {
 		isNewShips = false;
 		return newShips;
 	}
-	
-	private void generateShips(){
-		if(((TimeUtils.timeSinceNanos(lastGenTime)/nano)) > generateDelayTime){
+
+	private void generateShips() {
+		if (((TimeUtils.timeSinceNanos(lastGenTime) / nano)) > generateDelayTime) {
 			newShips = new Array<ShipActor>();
-			
-			for(int i = 0 ; i < shipFrecPerSec; i++){
+
+			for (int i = 0; i < shipFrecPerSec; i++) {
 				newShips.add(getRandomEnemyShip());
 			}
-			
+
 			lastGenTime = TimeUtils.nanoTime();
 			isNewShips = true;
 		}
 	}
-	
+
 	private ShipActor getRandomEnemyShip() {
 		String path = getPath();
-		//Hay que cambiarlo para que aparezcan mas atras de la pantalla
-		return new ShipActor(path, stageWidth + ShipActor.X_OFFSET, rand.nextInt(stageHeight));
+		return new ShipActor(path, stageWidth + ShipActor.X_OFFSET,
+				rand.nextInt(stageHeight));
 	}
-	
-	private String getPath(){
+
+	private String getPath() {
 		int shipColor = rand.nextInt(3);
-		switch(shipColor){
+		switch (shipColor) {
 		case 0:
 			return ShipActor.BLUE_ENEMY_SHIP;
-			
+
 		case 1:
 			return ShipActor.PURPLE_ENEMY_SHIP;
-			
+
 		case 2:
 			return ShipActor.RED_ENEMY_SHIP;
-			
+
 		default:
 			return ShipActor.YELLOW_ENEMY_SHIP;
 		}
-		
+
 	}
 
-	public boolean isNewShips(){
+	public boolean isNewShips() {
 		generateShips();
 		return isNewShips;
 	}

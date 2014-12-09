@@ -5,8 +5,8 @@ import com.ultimateStarfighter.game.UltimateStarfighterGame;
 
 public class USFScreen implements Screen {
 	protected UltimateStarfighterGame game;
-	
-	public USFScreen(UltimateStarfighterGame game){
+
+	public USFScreen(UltimateStarfighterGame game) {
 		this.game = game;
 	}
 
@@ -25,7 +25,7 @@ public class USFScreen implements Screen {
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
